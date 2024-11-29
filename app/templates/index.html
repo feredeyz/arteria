@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arteria</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/welcome.css')}}">
+</head>
+<body>
+    {% include "header.html" %}
+    <div id="welcome">
+        <h1>Arteria is a new modern way to share your life with the whole world!</h1>
+        <h1>Write articles, blogs, share your food recipes, or how adorably your cat plays with its new toy!</h1>
+        <div>
+            <a class="link" href="{{ url_for('auth.login') }}">Log in</a>
+            <a class="link" href="{{ url_for('auth.register') }}">Register</a>
+        </div>
+    </div>
+    <footer></footer>
+</body>
+</html>

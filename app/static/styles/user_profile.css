@@ -1,0 +1,71 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#about-user {
+    display: flex;
+    margin: 5vw 15vw;
+    & #picture {
+        position: relative;
+        text-align: center;
+        color: white;
+        & img {
+            width: 14vw;
+            height: 14vw;
+        }
+        & button {
+            position: absolute;
+            bottom: 7px;
+            right: 3px;
+            height: 1.4vw;
+            width: 1.4vw;
+            & img {
+                height: 0.75vw;
+                width: 0.75vw;
+            }
+        }
+    }
+    & h1 {
+        margin: 0 30px;
+        font-size: 3vw;
+    }
+    & #date {
+        margin: 5px 30px;
+    }
+    & #desc {
+        & textarea {
+            margin: 5px 0 0 30px;
+            border: 1px solid rgba(150, 150, 150, 0.1);
+            resize: none;
+            width: 20vw;
+            height: 8vw;
+        }
+        & button {
+            display: none;
+            width: 1vw;
+            height: 1vw;
+            border-width: 0;
+            border-radius: 25%;
+            & img {
+                width: 0.8vw;
+                height: 0.8vw;
+            }
+        }
+    }
+
+    & #settings {
+        display: flex;
+        border-width: 0;
+        border-radius: 50%;
+        width: 1.7vw;
+        height: 1.7vw;
+        justify-content: center;
+        align-items: center;
+
+        & img {
+            width: 1.3vw;
+            height: 1.3vw;
+        }
+    }
+}

@@ -1,0 +1,7 @@
+flask
+flask-wtf
+flask-sqlalchemy
+flask-login
+flask-cors
+flask-jwt-extended
+pillow

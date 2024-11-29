@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#header {
+    background-color: #781111;
+
+    & #logo {
+        margin: 0.5vw 2vw;
+        width: 3.5vw;
+        height: 3.5vw;
+    }
+}
