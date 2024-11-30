@@ -7,6 +7,7 @@ from flask_jwt_extended import create_access_token, jwt_required
 from . import db
 from datetime import datetime
 from PIL import Image
+import logging as log
 import os
 
 main = Blueprint('main', __name__)
@@ -16,8 +17,6 @@ cors = CORS()
 
 @main.route('/')
 def index():
-    #if current_user.is_authenticated:  
-        #return redirect(url_for('profile.user'))
     return render_template('index.html')
 
 @auth.route('/login', methods=["POST", "GET"])

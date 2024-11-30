@@ -19,11 +19,11 @@
             <p id="date">{{current_user.date}}</p>
             <div id="desc">
                 <textarea id="desc-text" placeholder="Click to edit description">{{ current_user.description or "" }}</textarea>
-                <button id="confirm-desc" name="{{ current_user.id }}" onclick="confirmEditting(this)"><img src="{{url_for('static', filename='styles/images/check.png')}}" alt="Confirm"></button>
+                <button id="confirm-desc" name="{{ current_user.id }}" onclick="confirmEditting(this)"><img src="{{url_for('static', filename='styles/images/check.png')}}" alt="C"></button>
             </div>
         </div>
         <div>
-            <button id="settings"><img src="{{url_for('static', filename='styles/images/settings.png')}}" alt="Settings"></button>
+            <!-- <button id="settings"><img src="{{url_for('static', filename='styles/images/settings.png')}}" alt="Settings"></button> -->
         </div>
     </div>
     
