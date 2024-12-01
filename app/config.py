@@ -11,3 +11,4 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=30)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
     JWT_ACCESS_COOKIE_NAME = 'access_token_cookie'
+    LOGIN_VIEW = "auth.login"

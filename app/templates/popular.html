@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arteria: Popular</title>
+</head>
+<body>
+    {% include "header.html" %}
+    <div id="add-post">
+        <form action="/add-post" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.title.label }} {{ form.title() }} <br>
+            {{ form.content.label }} {{ form.content() }} <br>
+            {{ form.submit() }}
+        </form>
+    </div>
+    <div id="posts">
+        <ul>
+           {% for post in posts %} 
+                <li>
+                    <h2>
+                        {{ post.title }}
+                    </h2>
+                    
+                    {{ post.content }} <br>
+                    {{ post.created_at }} <br>
+                    {{ post.user.username }}
+                </li>
+            {% endfor %}
+        </ul>
+        
+
+    </div>
+</body>
+</html>

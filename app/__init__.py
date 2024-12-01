@@ -18,9 +18,10 @@ def create_app():
     jwt_manager.init_app(app)
     
     
-    from .routes import auth, profile, main
+    from .routes import auth, profile, main, posts
     app.register_blueprint(main)
     app.register_blueprint(auth)
     app.register_blueprint(profile)
+    app.register_blueprint(posts)
     
     return app

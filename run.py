@@ -1,4 +1,4 @@
-#path/to/your/python
+#!path/to/your/python
 from app import create_app, db
 
 app = create_app()
