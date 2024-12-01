@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename='styles/user_profile.css')}}">
-    <title>{{ current_user.username }}</title>
+    <title>Arteria: {{ current_user.username }}</title>
 </head>
 <body>
     {% include "header.html" %}
     <div id="about-user">
         <div id="picture">
-            <img id="user-profile-pic" src="{{current_user.avatar}}" alt="avatar">
+            <img id="user-profile-pic" src="{{ url_for('static', filename=(current_user.avatar or 'styles/images/user-profile-pic.jpg')) }}" alt="avatar">
             <button onclick="document.getElementsByClassName('avatarFile')[0].click()"><img src="{{url_for('static', filename='styles/images/edit.png')}}" alt="Edit"></button>
             <input id="{{ current_user.id }}" name="image" accept="image/png, image/jpeg" type="file" style="display: none;" class="avatarFile" oninput="changeAvatar(this)">
         </div>

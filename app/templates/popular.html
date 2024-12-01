@@ -4,33 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arteria: Popular</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/popular.css') }}">
 </head>
 <body>
     {% include "header.html" %}
-    <div id="add-post">
-        <form action="/add-post" method="post">
-            {{ form.hidden_tag() }}
-            {{ form.title.label }} {{ form.title() }} <br>
-            {{ form.content.label }} {{ form.content() }} <br>
-            {{ form.submit() }}
-        </form>
-    </div>
+    {% if current_user.is_authenticated %}
+        <div id="add-post">
+            <form action="/add-post" method="post">
+                {{ form.hidden_tag() }}
+                {{ form.title.label }} {{ form.title() }} <br>
+                {{ form.content.label }} {{ form.content() }} <br>
+                {{ form.submit() }}
+            </form>
+        </div>
+    {% endif %}
     <div id="posts">
         <ul>
            {% for post in posts %} 
                 <li>
-                    <h2>
-                        {{ post.title }}
-                    </h2>
-                    
-                    {{ post.content }} <br>
-                    {{ post.created_at }} <br>
-                    {{ post.user.username }}
+                    <div class="post">
+                        <div class="post-user">
+                            <img class="post-avatar" src="{{ url_for('static', filename=(post.user.avatar or 'styles/images/user-profile-pic.jpg')) }}" alt="avatar">
+                            <p>{{ post.user.username }}</p>
+                        </div>
+                            
+
+                        <div class="post-text">     
+                            <h1 class="post-title" style="display: inline;">{{ post.title }}</h1> 
+                            <p class="post-date" style="display: inline;">({{ post.created_at }})</p>
+                            <p class="post-content">{{ post.content }}</p>
+                        </div>
+                        
+
+                    </div>
                 </li>
             {% endfor %}
         </ul>
-        
-
     </div>
 </body>
 </html>

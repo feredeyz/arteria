@@ -20,13 +20,14 @@
             Popular
         </a>
 
-        <a href="{{ url_for('profile.user')}}">
-            Privacy policy
+        <a href="{{ url_for('main.about')}}">
+            About
         </a>
 
-        <a href="{{ url_for('profile.user')}}">
+        <a>
             Contact
         </a>
+        
         {% if current_user.is_authenticated %}
             <button name="{{ current_user.id }}" onclick="logout()">Logout</button>
             <script>

@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#welcome {
+    margin: 45px 0 35px;
+    text-align: center;
+}
+
+a {
+    color: black;
+    font-weight: 900;
+}
+
+#content {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: #a6a6a6;
+    width: 80%;
+}
+#content *:not(:first-child) {
+    margin-top: 20px;
+}
+
+.not-list:not(:first-of-type) {
+    margin-left: 20px;
+}
+
+.not-list, .questions {
+    font-weight: 800;
+}
+
+ul {
+    list-style: none;
+}
+
+ul li {
+    text-indent: 30px;
+}
+
+.answer {
+    margin-left: 25px;
+}

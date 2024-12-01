@@ -16,7 +16,8 @@ def validate_login(form):
             identity=str(user.id),
             additional_claims={
                 'username': user.username,
-                'description': user.description or ""
+                'description': user.description or "",
+                'avatar': user.avatar,
             }
         )
         
@@ -56,10 +57,9 @@ def change_avatar(req):
     img = Image.open(file.stream)
     img = img.convert("RGB")
     save_path = os.path.join('app/static/avatars', f'avatar{id}.png')
-    os.makedirs('app/static/avatars', exist_ok=True) 
     img.save(save_path)
     user = User.query.get(id)
-    user.avatar = f'avatar{id}.png'
+    user.avatar = f'avatars/avatar{id}.png'
     db.session.commit()
     
 def post_add(form, user):

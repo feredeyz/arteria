@@ -1,7 +1,6 @@
 from flask import render_template, redirect, url_for, Blueprint, request
 from .forms import LoginForm, RegistrationForm, PostForm
 from flask_login import login_required, current_user, logout_user
-from flask_cors import CORS
 from flask_jwt_extended import jwt_required
 from .functions import *
 
@@ -9,7 +8,6 @@ main = Blueprint('main', __name__)
 auth = Blueprint('auth', __name__)
 profile = Blueprint('profile', __name__)
 posts = Blueprint('posts', __name__)
-cors = CORS()
 
 #   ----------------------
 #          Pages
@@ -22,6 +20,10 @@ def index():
 @posts.route('/popular')
 def popular():
     return render_template('popular.html', form=PostForm(), posts=Post.query.all())
+
+@main.route('/about')
+def about():
+    return render_template('about.html')
 
 #   ----------------------
 #          Posts
@@ -78,5 +80,4 @@ def logout():
 @jwt_required()
 @login_required
 def user():
-    current_user.avatar = f'/static/avatars/{current_user.avatar}' if current_user.avatar else '/static/styles/images/user-profile-pic.jpg'
     return render_template('user-profile.html')
