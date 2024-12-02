@@ -35,7 +35,7 @@ Arteria - unique and innovative way to tell everyone about your life! Show how a
 
 To copy Arteria's repository run this command:
 ```
-git clone https://github.com/feredeyz/test-123123asd.git arteria
+git clone https://github.com/feredeyz/arteria.git arteria
 ```
 Next, open Arteria's folder using `cd arteria`.
 
