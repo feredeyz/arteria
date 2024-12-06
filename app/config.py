@@ -1,7 +1,7 @@
 from secrets import token_hex
 from datetime import timedelta
 class Config:
-    SECRET_KEY = '617545da60b6385f1ac80bfa4e58157c4c97a8b24223d9a977745012dd01926e835343ebca744cb82586'
+    SECRET_KEY = ''
     SQLALCHEMY_DATABASE_URI = 'sqlite:///data.db'
     JWT_COOKIE_SECURE = False
     JWT_TOKEN_LOCATION = ["cookies"]
