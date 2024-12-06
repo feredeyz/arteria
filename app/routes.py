@@ -35,6 +35,22 @@ def add_post():
     post_add(form, current_user)    
     return redirect(url_for('posts.popular'))
 
+@posts.route('/delete-post', methods=["DELETE"])
+def delete_post():
+    id = request.json['id']
+    post = Post.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    return {"message": "Post deleted"}, 200 
+
+@posts.route('/edit-post', methods=["POST"])
+def edit_post():
+    content, id = request.json['content'], request.json['id']
+    post = Post.query.get(id)
+    post.content = content
+    db.session.commit()
+    return {"message": "Post edited"}, 200 
+
 
 #   ----------------------
 #       Authentication

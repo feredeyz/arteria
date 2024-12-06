@@ -62,9 +62,55 @@
         & .post-text {
             margin: 10px; 
         }
+
+        & .post-content {
+            display: block;
+            margin-top: 10px;
+            background-color: rgba(0, 0, 0, 0);
+            border-width: 0;
+            outline: none;
+            resize: none;
+            width: fit-content;
+            height: fit-content;
+        }
+
         & .post-date {
             font-size: small;
             opacity: 0.75;
         }
     }
+}
+
+#post-buttons {
+    display: flex;
+    justify-content: flex-end;
+    & #edit-post-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2vw;
+        height: 2vw;
+        border-width: 0;
+        border-radius: 10%;
+        margin-right: 5px;
+        & img {
+            width: 1vw;
+            height: 1vw;
+        }
+    }
+    
+    & #delete-post-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2vw;
+        height: 2vw;
+        border-width: 0;
+        border-radius: 10%;
+        & img {
+            width: 1vw;
+            height: 1vw;
+        }
+    }
+    
 }
