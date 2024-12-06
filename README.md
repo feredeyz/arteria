@@ -41,9 +41,16 @@ Next, open Arteria's folder using `cd arteria`.
 
 ***RUN***
 First, change path in *run.py* to your interpreter path. Then enter this:
+
+Linux:
 ```
 chmod +x run.py
 ./run.py
+```
+
+Windows:
+```
+python run.py
 ```
 After that, open **127.0.0.1:5000** in your browser.
 

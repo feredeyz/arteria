@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     description: Mapped[Optional[str]]
     avatar: Mapped[Optional[str]]
     
+    
     posts: Mapped[list['Post']] = relationship('Post', back_populates='user', cascade='all, delete-orphan')
     
     def __repr__(self):

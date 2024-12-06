@@ -16,7 +16,7 @@ posts = Blueprint('posts', __name__)
 @main.route('/')
 def index():
     return render_template('index.html')
-
+ 
 @posts.route('/popular')
 def popular():
     return render_template('popular.html', form=PostForm(), posts=Post.query.all())
@@ -32,7 +32,7 @@ def about():
 @posts.route('/add-post', methods=["POST"])
 def add_post():
     form = PostForm()
-    post_add(form, current_user)
+    post_add(form, current_user)    
     return redirect(url_for('posts.popular'))
 
 
