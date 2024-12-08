@@ -21,6 +21,10 @@ def index():
 def popular():
     return render_template('popular.html', form=PostForm(), posts=Post.query.all())
 
+@main.route('/contacts')
+def contacts():
+    return render_template('contacts.html')
+
 @main.route('/about')
 def about():
     return render_template('about.html')
