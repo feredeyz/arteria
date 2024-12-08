@@ -73,7 +73,7 @@ pip install -r requirements.txt
 ## ✍️ Authors <a name = "authors"></a>
 
 - [@feredeyz](https://github.com/feredeyz) - Idea & Initial work
-- [@sanechka](https://github.com/Shukuch1) - Designer
+- [@Shukuch1](https://github.com/Shukuch1) - Designer
 
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 

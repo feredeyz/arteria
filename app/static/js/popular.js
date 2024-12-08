@@ -6,7 +6,7 @@ function SubmitPostEdit(el) {
         method: "POST",
         body: JSON.stringify({
             id: id,
-            content: text.value, 
+            content: text.value,
         }),
         headers: {
             "Content-Type": "application/json"
@@ -32,7 +32,8 @@ function SubmitPostEdit(el) {
                 margin-right: 5px;`;
             editButton.children[0].style = `width: 1vw; height: 1vw;`;
 
-            el.parentElement.replaceChildren(editButton, el);
+            const deleteButton = document.querySelector('#delete-post-button');
+            el.parentElement.replaceChildren(editButton, deleteButton);
         } else {
             alert("Failed to update post. Please try again.");
         }
@@ -62,7 +63,8 @@ function editPost(el) {
         margin-right: 5px;`;
     submitEditButton.children[0].style = `width: 1vw; height: 1vw;`;
 
-    el.parentElement.replaceChildren(submitEditButton, el);
+    const deleteButton = document.querySelector('#delete-post-button');
+    el.parentElement.replaceChildren(submitEditButton, deleteButton);
 }
 
 function deletePost(el) {
@@ -77,4 +79,13 @@ function deletePost(el) {
     }).then(() => {
         window.location.reload();
     })
-}
+};
+
+document.querySelectorAll('#posts textarea').forEach( element => {
+    if (element.scrollHeight < 500) {
+        element.style.height = `${element.scrollHeight}px`;
+    }
+    else {
+        element.style.height = '500px';
+    }
+  })

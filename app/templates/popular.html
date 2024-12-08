@@ -32,12 +32,12 @@
                         <div class="post-text">     
                             <h1 class="post-title" style="display: inline;">{{ post.title }}</h1> 
                             <p class="post-date" style="display: inline;">({{ post.created_at }})</p>
-                            <textarea name="{{ post.user.id }}" readonly class="post-content">{{ post.content }}</textarea>
+                            <textarea name="{{ post.id }}" readonly class="post-content">{{ post.content }}</textarea>
                         </div>
                         {% if current_user.id == post.user.id %}
                             <div id="post-buttons">
-                                <button id="edit-post-button" onclick="editPost(this)" name="{{ post.user.id }}"><img src="{{url_for('static', filename='styles/images/edit.png')}}" alt="Edit"></button>
-                                <button id="delete-post-button" onclick="deletePost(this)" name="{{ post.id }}"><img src="{{url_for('static', filename='styles/images/settings.png')}}" alt="delete"></button>
+                                <button id="edit-post-button" onclick="editPost(this)" name="{{ post.id }}"><img src="{{url_for('static', filename='styles/images/edit.png')}}" alt="Edit"></button>
+                                <button id="delete-post-button" onclick="deletePost(this)" name="{{ post.id }}"><img src="{{url_for('static', filename='styles/images/bin.png')}}" alt="delete"></button>
                             </div>
                         {% endif %}
                     </div>

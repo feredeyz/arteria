@@ -6,27 +6,32 @@
         <a href="{{ url_for('main.index') }}">
             <img id="logo" src="{{ url_for('static', filename='styles/images/arteria-logo.png') }}" alt="logo">
         </a>
-        {% if current_user.is_authenticated %}
-            <a href="{{ url_for('profile.user')}}">
-                Profile
+
+        <div id="pages">
+           {% if current_user.is_authenticated %}
+                <a href="{{ url_for('profile.user')}}">
+                    Profile
+                </a>
+            {% else %}
+                <a href="{{ url_for('auth.register')}}">
+                    Profile
+                </a>
+            {% endif %}
+
+            <a href="{{ url_for('posts.popular')}}">
+                Popular
             </a>
-        {% else %}
-            <a href="{{ url_for('auth.register')}}">
-                Profile
+
+            <a href="{{ url_for('main.about')}}">
+                About
             </a>
-        {% endif %}
 
-        <a href="{{ url_for('posts.popular')}}">
-            Popular
-        </a>
+            <a>
+                Contact
+            </a> 
+        </div>
 
-        <a href="{{ url_for('main.about')}}">
-            About
-        </a>
-
-        <a>
-            Contact
-        </a>
+        
         
         {% if current_user.is_authenticated %}
             <button name="{{ current_user.id }}" onclick="logout()">Logout</button>

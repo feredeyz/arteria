@@ -60,7 +60,11 @@
         }
 
         & .post-text {
-            margin: 10px; 
+            margin: 10px;
+            & textarea {
+                width: 90%;
+                height: inherit;
+            }
         }
 
         & .post-content {
@@ -84,6 +88,7 @@
 #post-buttons {
     display: flex;
     justify-content: flex-end;
+
     & #edit-post-button {
         display: flex;
         justify-content: center;
