@@ -5,6 +5,7 @@ from flask_jwt_extended import jwt_required
 from .functions import *
 from . import jwt_manager, login_manager
 
+
 #   ---------------------- 
 #         Blueprints
 #   ----------------------
@@ -27,6 +28,14 @@ def custom_unauthorized_response_login(_err):
     return redirect(url_for('auth.login'))
 
 @main.app_errorhandler(405)
+def handle_405_error(error):
+    return redirect(url_for('main.index'))
+
+@main.app_errorhandler(404)
+def handle_405_error(error):
+    return render_template('404.html')
+
+@main.app_errorhandler(401)
 def handle_405_error(error):
     return redirect(url_for('main.index'))
 
