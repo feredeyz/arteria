@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     date: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[Optional[str]]
     avatar: Mapped[Optional[str]]
+    role: Mapped[Optional[str]]
     
     posts: Mapped[list['Post']] = relationship('Post', back_populates='user', cascade='all, delete-orphan')
     

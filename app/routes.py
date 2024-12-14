@@ -14,6 +14,7 @@ main = Blueprint('main', __name__)
 auth = Blueprint('auth', __name__)
 profile = Blueprint('profile', __name__)
 posts = Blueprint('posts', __name__)
+admin = Blueprint('admin', __name__)
 
 #   ---------------------- 
 #       Error handlers
@@ -34,11 +35,6 @@ def handle_405_error(error):
 @main.app_errorhandler(404)
 def handle_405_error(error):
     return render_template('404.html')
-
-@main.app_errorhandler(401)
-def handle_405_error(error):
-    return redirect(url_for('main.index'))
-
 #   ----------------------
 #           Pages
 #   ----------------------
@@ -135,3 +131,41 @@ def logout():
 def user():
     print(current_user.password)
     return render_template('user-profile.html')
+
+#   ----------------------
+#           Admin
+#   ----------------------
+
+@admin.route('/admin')
+def log_admin():
+    return render_template('admin.html')
+
+@admin.route('/log-admin', methods=["POST"])
+def check_log_admin():
+    if request.form['username'] == 'admin' and request.form['password'] == 'admin':
+        user = User(username='admin', password='admin', role='admin', date=str(datetime.now())[:-7])
+        db.session.add(user)
+        db.session.commit()
+        login_user(user)
+        return redirect(url_for('admin.admin_panel'))
+    return redirect(url_for('posts.popular'))
+    
+@admin.route('/admin-panel')
+def admin_panel():
+    if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            return render_template('admin-panel.html')
+    return redirect(url_for('main.index'))
+
+@admin.route('/delete-all-posts')
+def delete_all_posts():
+    Post.query.delete()
+    db.session.commit()
+    return {"message": "Deleted all posts"}, 200
+    
+@admin.route('/delete-all-users')
+def delete_all_users():
+    User.query.delete()
+    db.session.commit()
+    return {"message": "Deleted all users"}, 200
+ 
