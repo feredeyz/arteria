@@ -3,20 +3,41 @@ from .forms import LoginForm, RegistrationForm, PostForm
 from flask_login import login_required, current_user, logout_user
 from flask_jwt_extended import jwt_required
 from .functions import *
+from . import jwt_manager, login_manager
+
+#   ---------------------- 
+#         Blueprints
+#   ----------------------
 
 main = Blueprint('main', __name__)
 auth = Blueprint('auth', __name__)
 profile = Blueprint('profile', __name__)
 posts = Blueprint('posts', __name__)
 
+#   ---------------------- 
+#       Error handlers
 #   ----------------------
-#          Pages
+
+@jwt_manager.unauthorized_loader
+def custom_unauthorized_response_jwt(_err):
+    return redirect(url_for('auth.login'))
+
+@login_manager.unauthorized_handler
+def custom_unauthorized_response_login(_err):
+    return redirect(url_for('auth.login'))
+
+@main.app_errorhandler(405)
+def handle_405_error(error):
+    return redirect(url_for('main.index'))
+
+#   ----------------------
+#           Pages
 #   ----------------------
 
 @main.route('/')
 def index():
     return render_template('index.html')
- 
+
 @posts.route('/popular')
 def popular():
     return render_template('popular.html', form=PostForm(), posts=Post.query.all())
@@ -43,18 +64,21 @@ def add_post():
 def delete_post():
     id = request.json['id']
     post = Post.query.get(id)
-    db.session.delete(post)
-    db.session.commit()
-    return {"message": "Post deleted"}, 200 
+    if post:
+        db.session.delete(post)
+        db.session.commit()
+        return {"message": "Post deleted"}, 200
+    return {"message": "Post not found"}, 400
 
 @posts.route('/edit-post', methods=["POST"])
 def edit_post():
     content, id = request.json['content'], request.json['id']
     post = Post.query.get(id)
-    post.content = content
-    db.session.commit()
-    return {"message": "Post edited"}, 200 
-
+    if post:
+        post.content = content
+        db.session.commit()
+        return {"message": "Post edited"}, 200 
+    return {"message": "Post not found"}, 400
 
 #   ----------------------
 #       Authentication
@@ -100,4 +124,5 @@ def logout():
 @jwt_required()
 @login_required
 def user():
+    print(current_user.password)
     return render_template('user-profile.html')

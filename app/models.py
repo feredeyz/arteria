@@ -15,7 +15,6 @@ class User(UserMixin, db.Model):
     description: Mapped[Optional[str]]
     avatar: Mapped[Optional[str]]
     
-    
     posts: Mapped[list['Post']] = relationship('Post', back_populates='user', cascade='all, delete-orphan')
     
     def __repr__(self):
@@ -31,10 +30,11 @@ class User(UserMixin, db.Model):
     @pwd.setter
     def pwd(self, password):
         self.password = generate_password_hash(password)
-        
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 class Post(db.Model):
     __tablename__ = 'posts'

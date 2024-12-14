@@ -13,10 +13,9 @@ async function confirmEditting(el) {
 
 async function changeAvatar(el) {
     const formData = new FormData();
-    console.log(el);
     
     formData.append('image', el.files[0]); 
-    formData.append('userId', el.id)
+    formData.append('userId', el.id);
 
     await fetch('/change-avatar', {
       method: 'POST',
@@ -24,7 +23,6 @@ async function changeAvatar(el) {
     }).then(() => {
       window.location.reload();
     })
-
 }
 
 const description = document.getElementById('desc-text');
