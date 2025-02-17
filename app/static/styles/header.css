@@ -13,13 +13,18 @@
     justify-content: space-evenly;
     font-size: large;
     padding: 10px 0;
+    animation: appearing 0.8s ease-in-out 0.1s 1 normal both;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
     & a {
         color: white;
         text-decoration: none;
     }
     & #logo {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
     }
     & button:hover, a:hover{
         filter: brightness(85%);
@@ -27,7 +32,7 @@
     }
     & button {
         font-size: large;
-        border-radius: 5px;
+        border-radius: 2px;
         width: 90px;
         height: 45px;
         border-width: 0;
@@ -44,17 +49,15 @@
         width: 60%;
         height: 50px;
         align-items: center;
-        border-radius: 8px;
+        border-radius: 3px;
         justify-content: space-evenly;
         & a {
             background-color: #923838;
-            border-radius: 5px;
+            border-radius: 2px;
             padding: 7px 14px;
             display: flex;
             justify-content: center;
-            &:first-of-type {
-                width: 40%;
-            }
+            width: 25%;
         }
     }
 }

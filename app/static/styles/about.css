@@ -3,6 +3,14 @@
     padding: 0;
 }
 
+body {
+    background-image: url('/static/styles/images/main-background.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #630a0a;
+}
+
 #welcome {
     margin: 45px 0 35px;
     text-align: center;
@@ -13,6 +21,10 @@ a {
     font-weight: 900;
 }
 
+#header a {
+    font-weight: normal;
+}
+
 #content {
     padding: 10px;
     display: flex;
@@ -20,9 +32,17 @@ a {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
-    background-color: #a6a6a6;
+    background-color: #4b0505;
+    filter: drop-shadow(0 0 2px black);
     width: 80%;
 }
+
+#content p, #content li {
+    border-radius: 3px;
+    padding: 5px;
+    background-color: rgba(255, 164, 160, 0.075);
+}
+
 #content *:not(:first-child) {
     margin-top: 20px;
 }

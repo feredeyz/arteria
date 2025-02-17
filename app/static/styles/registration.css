@@ -1,0 +1,44 @@
+body {
+    background-image: url('/static/styles/images/main-background.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-color: #630a0a;
+}
+
+#reg-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(95, 28, 28, 0.7);
+    border: 2px solid rgb(75, 14, 14);
+    border-radius: 10px;
+    padding: 50px 25px;
+    text-align: center;
+    & #title {
+        font-size: 2.5rem;
+        margin-bottom: 35px;
+    }
+    & form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        & input {
+            font-size: 1.05rem;
+            width: 30vw;
+            height: 35px;
+            text-align: center;
+            background-color: #ffffff;
+            border: 2px solid rgb(53, 11, 11);
+            border-radius: 10px;
+        }
+        & input:focus {
+            outline: 0;
+            filter: brightness(0.9);
+        }
+        & input:hover {
+            filter: brightness(0.9);
+        }
+    }
+}

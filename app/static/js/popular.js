@@ -40,6 +40,59 @@ function SubmitPostEdit(el) {
     });
 }
 
+function addLike(el) {
+    const userId = el.name;
+    const postId = el.id;
+
+    console.log("User ID:", userId, "Post ID:", postId);
+
+    fetch('/add-like', {
+        method: "POST",
+        body: JSON.stringify({
+            user: userId,
+            post: postId
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(async (res) => {
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        return res.json();
+    })
+    .then((data) => {console.log("Response:", data); window.location.reload()})
+    .catch((err) => console.error("Fetch error:", err));
+}
+
+function deleteLike(el) {
+    const userId = el.getAttribute("name");
+    const postId = el.getAttribute("id");
+
+    console.log("User ID:", userId, "Post ID:", postId);
+
+    fetch('/delete-like', {
+        method: "POST",
+        body: JSON.stringify({
+            user: userId,
+            post: postId
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        return res.json();
+    })
+    .then(data => {
+        console.log("Response:", data);
+        window.location.reload();
+    })
+    .catch(err => console.error("Fetch error:", err));
+}
+
+
+
 function editPost(el) {
     const id = el.name;
     const text = document.querySelector(`textarea[name="${id}"]`);

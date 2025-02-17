@@ -8,7 +8,7 @@
         </a>
 
         <div id="pages">
-           {% if current_user.is_authenticated %}
+            {% if current_user.is_authenticated %}
                 <a href="{{ url_for('profile.user')}}">
                     Profile
                 </a>
@@ -25,10 +25,6 @@
             <a href="{{ url_for('main.about')}}">
                 About
             </a>
-
-            <a href="{{ url_for('main.contacts')}}">
-                Contact
-            </a> 
         </div>
 
         

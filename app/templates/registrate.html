@@ -6,18 +6,26 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='styles/images/arteria-logo.png') }}">
 
     <title>Arteria: Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/registration.css') }}">
 </head>
 <body>
     {% include "header.html" %}
-    <form action="/register" method="post">
-        {{ form.hidden_tag() }}
-        {{ form.username.label }} {{ form.username() }}<br>
-        {{ form.password.label }} {{ form.password() }}<br>
-        {{ form.verify_password.label }} {{ form.verify_password() }}<br>
-        {{ form.submit() }}
-    </form>
-    {% if error %}
-        <h1>{{ error }}</h1>
-    {% endif %}
+    <div id="reg-form">
+        <h1 id="title">Singing up</h1>
+        <form action="/register" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.username.label }} {{ form.username() }}<br>
+            {{ form.password.label }} {{ form.password() }}<br>
+            {{ form.verify_password.label }} {{ form.verify_password() }}<br>
+            {{ form.submit() }}
+        </form>
+        <p id="error" style="display: none;">{{ error }}</p>
+        {% if error %}
+            <script>
+                const error = document.getElementById('error').innerHTML;
+                alert(error);
+            </script>
+        {% endif %}
+    </div>
 </body>
 </html>

@@ -5,18 +5,23 @@ from typing import Optional
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
 
+likes_table = db.Table(
+    'likes',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+)
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    id: Mapped[int]  = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(unique=True, nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
     date: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[Optional[str]]
     avatar: Mapped[Optional[str]]
-    role: Mapped[Optional[str]]
-    
+
     posts: Mapped[list['Post']] = relationship('Post', back_populates='user', cascade='all, delete-orphan')
+    liked_posts: Mapped[list['Post']] = relationship('Post', secondary=likes_table, back_populates='liked_by')
     
     def __repr__(self):
         return f'<User {self.username}>'
@@ -46,6 +51,7 @@ class Post(db.Model):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
 
     user: Mapped['User'] = relationship('User', back_populates='posts')
+    liked_by: Mapped[list['User']] = relationship('User', secondary=likes_table, back_populates='liked_posts')
 
     def __repr__(self):
         return f'<Post {self.title}>'

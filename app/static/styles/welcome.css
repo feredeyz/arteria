@@ -1,26 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
 }
-#welcome {
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    position: absolute;
-    width: 60%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: welcome-appearing 1.8s cubic-bezier(0,.11,0,.99) 0.1s 1 normal both;
-    & div {
-        margin-top: 25px;
-        display: flex;
-        justify-content: space-around;
-        flex-direction: row;
-        font-size: 2.5vw;
-    }
-    font-size: 1.5vw;
+
+body {
+    background-image: url('/static/styles/images/main-background.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-color: #630a0a;
 }
+
+#center-text {
+    color: white;
+    & #welcome-text {
+        font-family: "Roboto";
+        font-size: 6.5rem;
+        position: absolute;
+        top: 38%;
+        left: 13%;
+        background-color: rgba(133, 60, 60, 0.4);
+        padding: 10px 20px;
+        border-radius: 15px;
+        filter: drop-shadow(0px 0px 2px black);
+        animation: welcome-appearing 1.2s cubic-bezier(0,.29,.21,.98) 0s 1 normal forwards, 
+                welcome-floating 1.5s ease-in-out 1.25s infinite normal both;
+    }
+    & #to-text {
+        font-family: "Roboto";
+        font-size: 6.5rem;
+        position: absolute;
+        top: 62%;
+        left: 44.5%;
+        background-color: rgba(133, 60, 60, 0.4);
+        padding: 3px 10px;
+        border-radius: 15px;
+        filter: drop-shadow(0px 0px 2px black);
+        animation: to-appearing 1.5s cubic-bezier(.19,.39,.56,.98) 0.05s 1 normal forwards, 
+                to-floating 1.5s ease-in-out 1.7s infinite normal both;
+    }
+    & #arteria-list {
+        font-family: "Roboto";
+        font-size: 5.7rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-43%);
+        display: flex;
+        flex-direction: column;
+        left: 60%;
+        letter-spacing: 15%;
+        line-height: 0.9;
+        & #a1 {
+            opacity: 0.2;
+            animation: arteria-appearing_4 0.3s linear 0.9s 1 normal both;
+        }
+
+        & #a2 {
+            opacity: 0.3;
+            animation: arteria-appearing_3 0.3s linear 0.75s 1 normal both;
+
+        }
+
+        & #a3 {
+            opacity: 0.45;
+            animation: arteria-appearing_2 0.3s linear 0.6s 1 normal both;
+        }
+        & #a4 {
+            opacity: 0.8;
+            animation: arteria-appearing_1 0.3s linear 0.47s 1 normal both;
+        }
+
+        & #a5 {
+            opacity: 0.45;
+            animation: arteria-appearing_2 0.3s linear 0.6s 1 normal both;
+
+        }
+
+        & #a6 {
+            opacity: 0.3;
+            animation: arteria-appearing_3 0.3s linear 0.75s 1 normal both;
+
+        }
+
+        & #a7 {
+            opacity: 0.2;
+            animation: arteria-appearing_4 0.3s ease-in 0.9s 1 normal both;
+
+        }
+    }
+}
+
+
+
+
+
 
 @keyframes welcome-appearing {
     from {
@@ -28,7 +102,84 @@
         opacity: 0.1;
     }
     to {
-        margin-top: 0;
+        margin-top: 0px;
         opacity: 1;
+    }
+}
+
+@keyframes to-appearing {
+    from {
+        margin-top: 125px;
+        opacity: 0.1;
+    }
+    to {
+        margin-top: 0px;
+        opacity: 1;
+    }
+}
+
+@keyframes welcome-floating {
+    from {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+    to {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes to-floating {
+    from {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+    to {
+        transform: translateY(0px);
+    }
+}
+
+
+
+
+
+
+
+@keyframes arteria-appearing_1 {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.8;
+    }
+}
+
+@keyframes arteria-appearing_2 {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.45;
+    }
+}
+
+@keyframes arteria-appearing_3 {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.3;
+    }
+}
+
+@keyframes arteria-appearing_4 {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.2;
     }
 }

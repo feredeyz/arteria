@@ -23,7 +23,7 @@
     <div id="posts">
 
         <ul>
-           {% for post in posts %} 
+            {% for post in posts %} 
                 <li>
                     <div class="post">
                         <div class="post-user">
@@ -34,11 +34,24 @@
                             <h1 class="post-title" style="display: inline;">{{ post.title }}</h1> 
                             <p class="post-date" style="display: inline;">({{ post.created_at }})</p>
                             <textarea name="{{ post.id }}" readonly class="post-content">{{ post.content }}</textarea>
+                            {% if current_user.id in post.liked_by | map(attribute='id') | list %}
+                                <button class="addlike" id="{{ post.id }}" name="{{ current_user.id }}" onclick="deleteLike(this)">
+                                    <img id="heart" src="{{ url_for('static', filename='styles/images/heart.png') }}" alt="Likes">
+                                    <span>{{ post.likes }}</span> 
+                                </button>
+                            {% else %}
+                                <button class="addlike" id="{{ post.id }}" name="{{ current_user.id }}" onclick="addLike(this)">
+                                    <img id="heart" src="{{ url_for('static', filename='styles/images/heart_gray.png') }}" alt="Likes">
+                                    <span>{{ post.likes }}</span> 
+                                </button>
+                            {% endif %}
+
+
+                            
                         </div>
                         {% if current_user.id == post.user.id %}
                             <div id="post-buttons">
                                 <button id="edit-post-button" onclick="editPost(this)" name="{{ post.id }}"><img src="{{url_for('static', filename='styles/images/edit.png')}}" alt="Edit"></button>
-                                <button id="delete-post-button" onclick="deletePost(this)" name="{{ post.id }}"><img src="{{url_for('static', filename='styles/images/bin.png')}}" alt="delete"></button>
                             </div>
                         {% endif %}
                     </div>

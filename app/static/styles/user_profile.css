@@ -3,16 +3,33 @@
     margin: 0;
 }
 
+body {
+    background-image: url('/static/styles/images/main-background.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-color: #630a0a;
+}
+
 #about-user {
+    background-color: rgba(114, 30, 30, 0.7);
+    filter: drop-shadow(0px 0px 2px black);
+    width: 40%;
+    padding: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
-    margin: 5vw 15vw;
+    border-radius: 2px;
+    animation: floating 1.5s ease-in-out 0s infinite normal both;
     & #picture {
         position: relative;
         text-align: center;
         color: white;
         & img {
-            width: 14vw;
-            height: 14vw;
+            width: 15.65vw;
+            height: 15.65vw;
+            border-radius: 3px;
         }
         & button {
             position: absolute;
@@ -21,25 +38,38 @@
             height: 1.4vw;
             width: 1.4vw;
             & img {
-                height: 0.75vw;
-                width: 0.75vw;
+                height: 0.8vw;
+                width: 0.8vw;
             }
         }
     }
     & h1 {
+        outline: 2px solid rgba(254, 255, 255, 0.185);
         margin: 0 30px;
         font-size: 3vw;
+        background-color: rgba(255, 255, 255, 0.11);
+        border-radius: 5px;
+        padding: 2px 10px;
+        width: fit-content;
     }
     & #date {
-        margin: 5px 30px;
+        outline: 2px solid rgba(254, 255, 255, 0.185);
+        margin: 10px 30px 5px 30px;
+        background-color: rgba(254, 255, 255, 0.151);
+        border-radius: 5px;
+        padding: 2px 10px;
+        width: fit-content;
     }
     & #desc {
         & textarea {
             margin: 5px 0 0 30px;
-            border: 1px solid rgba(150, 150, 150, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            padding: 2px;
             resize: none;
             width: 20vw;
-            height: 8vw;
+            height: 8.5vw;
+            background-color: rgba(254, 255, 255, 0.151);
         }
         & button {
             display: none;
@@ -53,19 +83,16 @@
             }
         }
     }
+}
 
-    & #settings {
-        display: flex;
-        border-width: 0;
-        border-radius: 50%;
-        width: 1.7vw;
-        height: 1.7vw;
-        justify-content: center;
-        align-items: center;
-
-        & img {
-            width: 1.3vw;
-            height: 1.3vw;
-        }
+@keyframes floating {
+    from {
+        margin-top: 0px;
+    }
+    50% {
+        margin-top: 2px;
+    }
+    to {
+        margin-top: 0px;
     }
 }

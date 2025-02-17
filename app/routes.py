@@ -1,6 +1,7 @@
-from flask import render_template, redirect, url_for, Blueprint, request
+from flask import render_template, redirect, url_for, Blueprint, request, jsonify
 from .forms import LoginForm, RegistrationForm, PostForm
 from flask_login import login_required, current_user, logout_user
+from sqlalchemy.exc import SQLAlchemyError
 from flask_jwt_extended import jwt_required
 from .functions import *
 from . import jwt_manager, login_manager
@@ -45,11 +46,7 @@ def index():
 
 @posts.route('/popular')
 def popular():
-    return render_template('popular.html', form=PostForm(), posts=Post.query.all())
-
-@main.route('/contacts')
-def contacts():
-    return render_template('contacts.html')
+    return render_template('popular.html', form=PostForm(), posts=get_posts())
 
 @main.route('/about')
 def about():
@@ -58,6 +55,24 @@ def about():
 #   ----------------------
 #          Posts
 #   ----------------------
+
+def get_posts():
+    posts = Post.query.all()
+    result = []
+    
+    for post in posts:
+        result.append({
+            "id": post.id,
+            "title": post.title,
+            "content": post.content,
+            "created_at": post.created_at,
+            "user": post.user,
+            "user_id": post.user_id,
+            "liked_by": post.liked_by,
+            "likes": len(post.liked_by)
+        })
+    
+    return result
 
 @posts.route('/add-post', methods=["POST"])
 def add_post():
@@ -84,6 +99,49 @@ def edit_post():
         db.session.commit()
         return {"message": "Post edited"}, 200 
     return {"message": "Post not found"}, 400
+
+@posts.route('/add-like', methods=["POST"])
+def add_like():
+    data = request.get_json()
+    if not data or 'user' not in data or 'post' not in data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+
+    user_id, post_id = data['user'], data['post']
+    user = User.query.get(user_id)
+    post = Post.query.get(post_id)
+
+    if not user or not post:
+        return jsonify({"error": "User or post not found"}), 404
+
+    if post not in user.liked_posts:
+        user.liked_posts.append(post)
+        db.session.commit()
+        return jsonify({"msg": "Like added"}), 200
+
+    return jsonify({"msg": "Already liked"}), 200
+
+@posts.route('/delete-like', methods=["POST"])
+def delete_like():
+    data = request.get_json()
+    if not data or 'user' not in data or 'post' not in data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+
+    user_id, post_id = data['user'], data['post']
+    user = User.query.get(user_id)
+    post = Post.query.get(post_id)
+
+    if not user or not post:
+        return jsonify({"error": "User or post not found"}), 404
+
+    if post in user.liked_posts:
+        user.liked_posts.remove(post)
+        db.session.commit()
+        return jsonify({"msg": "Like removed"}), 200
+
+    return jsonify({"msg": "Like not found"}), 400
+
+
+    
 
 #   ----------------------
 #       Authentication
@@ -131,41 +189,3 @@ def logout():
 def user():
     print(current_user.password)
     return render_template('user-profile.html')
-
-#   ----------------------
-#           Admin
-#   ----------------------
-
-@admin.route('/admin')
-def log_admin():
-    return render_template('admin.html')
-
-@admin.route('/log-admin', methods=["POST"])
-def check_log_admin():
-    if request.form['username'] == 'admin' and request.form['password'] == 'admin':
-        user = User(username='admin', password='admin', role='admin', date=str(datetime.now())[:-7])
-        db.session.add(user)
-        db.session.commit()
-        login_user(user)
-        return redirect(url_for('admin.admin_panel'))
-    return redirect(url_for('posts.popular'))
-    
-@admin.route('/admin-panel')
-def admin_panel():
-    if current_user.is_authenticated:
-        if current_user.role == 'admin':
-            return render_template('admin-panel.html')
-    return redirect(url_for('main.index'))
-
-@admin.route('/delete-all-posts')
-def delete_all_posts():
-    Post.query.delete()
-    db.session.commit()
-    return {"message": "Deleted all posts"}, 200
-    
-@admin.route('/delete-all-users')
-def delete_all_users():
-    User.query.delete()
-    db.session.commit()
-    return {"message": "Deleted all users"}, 200
- 

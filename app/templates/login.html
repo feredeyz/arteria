@@ -6,17 +6,25 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='styles/images/arteria-logo.png') }}">
 
     <title>Arteria: Log in</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
 </head>
 <body>
     {% include "header.html" %}
-    <form action="/login" method="post">
-        {{ form.csrf_token }}
-        {{ form.username.label }} {{ form.username }} <br>
-        {{ form.password.label }} {{ form.password }} <br>
-        {{ form.submit }}
-     </form>
-    {% if error %}
-        <h1>{{ error }}</h1>
-    {% endif %}
+    <div id="login-form">
+        <h1 id="title">Logging in</h1>
+        <form action="/login" method="post">
+            {{ form.csrf_token }}
+            {{ form.username.label }} {{ form.username }} <br>
+            {{ form.password.label }} {{ form.password }} <br>
+            {{ form.submit }}
+        </form>
+        <p id="error" style="display: none;">{{ error }}</p>
+        {% if error %}
+            <script>
+                const error = document.getElementById('error').innerHTML;
+                alert(error);
+            </script>
+        {% endif %}
+    </div>
 </body>
 </html>
