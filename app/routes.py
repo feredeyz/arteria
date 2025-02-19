@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, Blueprint, request, jsonif
 from .forms import LoginForm, RegistrationForm, PostForm
 from flask_login import login_required, current_user, logout_user
 from sqlalchemy.exc import SQLAlchemyError
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, unset_jwt_cookies
 from .functions import *
 from . import jwt_manager, login_manager
 
@@ -23,18 +23,18 @@ admin = Blueprint('admin', __name__)
 
 @jwt_manager.unauthorized_loader
 def custom_unauthorized_response_jwt(_err):
-    return redirect(url_for('auth.login'))
+    if request.path.startswith('/api'):
+        return jsonify({"error": "Unauthorized"}), 401
+    return redirect(url_for('auth.login', next=request.url))
 
-@login_manager.unauthorized_handler
-def custom_unauthorized_response_login(_err):
-    return redirect(url_for('auth.login'))
 
 @main.app_errorhandler(405)
 def handle_405_error(error):
     return redirect(url_for('main.index'))
 
+
 @main.app_errorhandler(404)
-def handle_405_error(error):
+def handle_404_error(error):
     return render_template('404.html')
 #   ----------------------
 #           Pages
@@ -150,10 +150,13 @@ def delete_like():
 @auth.route('/login', methods=["POST", "GET"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('profile.user'))
+        next_page = request.args.get('next')
+        return redirect(next_page or url_for('profile.user'))
+
     form = LoginForm()
     if form.validate_on_submit():
         return validate_login(form)
+
     return render_template('login.html', form=form)
 
 
@@ -162,30 +165,33 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         return validate_registration(form)
+
     return render_template('registrate.html', form=form)
 
 #   ----------------------
 #        User profile
 #   ----------------------
 
-@profile.route('/confirm-description-edit', methods=["POST"])
-def confirm_desc_edit():
-    change_description(request)
-    return redirect(url_for('profile.user'))
+@profile.route('/confirm-edit', methods=["POST"])
+def confirm_edit():
+    return change_info(request)
 
 @profile.route('/change-avatar', methods=["POST"])
 def change_av():
     change_avatar(request)
     return redirect(url_for('profile.user'))
 
-@profile.route('/logout', methods=["DELETE"])
+@profile.route('/logout', methods=["POST"])
 def logout():
+    response = make_response(jsonify({"message": "Logged out"}))
+    unset_jwt_cookies(response)
     logout_user()
-    return {"message": "Logged out"}, 200 
+    return response, 200
 
 @profile.route('/user')
-@jwt_required()
 @login_required
+@jwt_required()
 def user():
-    print(current_user.password)
-    return render_template('user-profile.html')
+    response = make_response(render_template('user-profile.html'))
+    response.headers['Content-Security-Policy'] = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'"
+    return response

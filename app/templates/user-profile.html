@@ -17,12 +17,10 @@
             <input id="{{ current_user.id }}" name="image" accept="image/png, image/jpeg" type="file" style="display: none;" class="avatarFile" oninput="changeAvatar(this)">
         </div>
         <div>
-            <h1>{{current_user.username}}</h1>
+            <textarea id="username">{{current_user.username}}</textarea>
             <p id="date">{{current_user.date}}</p>
-            <div id="desc">
-                <textarea id="desc-text" placeholder="Click to edit description">{{ current_user.description or "" }}</textarea>
-                <button id="confirm-desc" name="{{ current_user.id }}" onclick="confirmEditting(this)"><img src="{{url_for('static', filename='styles/images/check.png')}}" alt="C"></button>
-            </div>
+            <textarea id="desc-text" placeholder="Click to edit description">{{ current_user.description or "" }}</textarea>
+            <button onclick="confirmEditting(this)" name="{{ current_user.id }}" id="confirm-button"><img src="{{ url_for('static', filename='styles/images/check.png')}}" alt="Confirm Edditing"></button>
         </div>
     </div>
     <script src="{{url_for('static', filename='js/userProfile.js')}}"></script>

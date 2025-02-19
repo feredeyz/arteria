@@ -35,7 +35,7 @@
                 async function logout() {
                     try {
                         const response = await fetch("/logout", { 
-                            method: "DELETE",
+                            method: "POST",
                         });
                         if (response.ok) {
                             window.location.href = "/"; 
