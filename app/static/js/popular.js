@@ -60,8 +60,8 @@ function addLike(el) {
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
         return res.json();
     })
-    .then((data) => {console.log("Response:", data); window.location.reload()})
-    .catch((err) => console.error("Fetch error:", err));
+    .then((data) => window.location.reload())
+    .catch((err) => console.error(err));
 }
 
 function deleteLike(el) {
@@ -85,10 +85,9 @@ function deleteLike(el) {
         return res.json();
     })
     .then(data => {
-        console.log("Response:", data);
         window.location.reload();
     })
-    .catch(err => console.error("Fetch error:", err));
+    .catch(err => console.error(err));
 }
 
 
@@ -131,7 +130,7 @@ function deletePost(el) {
         }
     }).then(() => {
         window.location.reload();
-    })
+    }).catch((err) => console.log(err))
 };
 
 document.querySelectorAll('#posts textarea').forEach( element => {

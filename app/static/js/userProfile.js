@@ -31,7 +31,7 @@ async function changeAvatar(el) {
       body: formData,
     }).then(() => {
       window.location.reload();
-    })
+    }).catch((err) => console.log(err))
 }
 
 const description = document.getElementById('desc-text');
