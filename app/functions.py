@@ -2,7 +2,7 @@ from .models import User, Post
 from . import db
 from datetime import datetime
 from flask import make_response, redirect, url_for, render_template
-from flask_login import login_user, logout_user
+from flask_login import login_user
 from flask_jwt_extended import create_access_token
 import os
 from PIL import Image
@@ -53,9 +53,12 @@ def validate_registration(form):
 
 def change_info(req):
     user = User.query.get(req.json['userId'])
+    if not user:
+        response = make_response({"msg": "User not found."}, 404)
+        return response
     new_username = req.json['content'][1]
     if User.query.filter_by(username=new_username).first():
-        return {"msg": "Username already taken."}
+        return {"msg": "Username already taken."}, 400
     user.description = req.json['content'][0]
     db.session.commit()
     access_token = create_access_token(
@@ -66,21 +69,44 @@ def change_info(req):
                 'avatar': user.avatar
             }
         )
-    response = make_response({"msg": "ok"})
+    response = make_response({"msg": "ok"}, 200)
     response.set_cookie('access_token_cookie', access_token, httponly=True)
     return response
     
 def change_avatar(req):
-    file = req.files['image']
-    id = req.form['userId']
-    img = Image.open(file.stream)
+    avatar = req.files['image']
+    user_id = req.form['userId']
+    if not avatar or not user_id:
+        return {"msg": "User not found."}, 404
+    img = Image.open(avatar.stream)
     img = img.convert("RGB")
-    save_path = os.path.join('app/static/avatars', f'avatar{id}.png')
+    save_path = os.path.join('app/static/avatars', f'avatar{user_id}.png')
     img.save(save_path)
-    user = User.query.get(id)
-    user.avatar = f'avatars/avatar{id}.png'
+    user = User.query.get(user_id)
+    user.avatar = f'avatars/avatar{user_id}.png'
     db.session.commit()
+    return redirect(url_for('profile.user'))
     
 def post_add(form, user):
     db.session.add(Post(title=form.title.data, content=form.content.data, created_at=str(datetime.now())[:-7], user_id=user.id))
     db.session.commit()
+    return redirect(url_for('posts.popular'))
+
+def get_posts():
+    posts = Post.query.all()
+    if not posts:
+        return []
+    result = []
+    
+    for post in posts:
+        result.append({
+            "id": post.id,
+            "title": post.title,
+            "content": post.content,
+            "created_at": post.created_at,
+            "user": post.user,
+            "user_id": post.user_id,
+            "liked_by": post.liked_by,
+            "likes": len(post.liked_by)
+        })
+    return result

@@ -1,10 +1,9 @@
 from flask import render_template, redirect, url_for, Blueprint, request, jsonify
 from .forms import LoginForm, RegistrationForm, PostForm
 from flask_login import login_required, current_user, logout_user
-from sqlalchemy.exc import SQLAlchemyError
 from flask_jwt_extended import jwt_required, unset_jwt_cookies
 from .functions import *
-from . import jwt_manager, login_manager
+from . import jwt_manager
 
 
 #   ---------------------- 
@@ -23,18 +22,14 @@ admin = Blueprint('admin', __name__)
 
 @jwt_manager.unauthorized_loader
 def custom_unauthorized_response_jwt(_err):
-    if request.path.startswith('/api'):
-        return jsonify({"error": "Unauthorized"}), 401
-    return redirect(url_for('auth.login', next=request.url))
-
+    return redirect(url_for('auth.register', next=request.url))
 
 @main.app_errorhandler(405)
-def handle_405_error(error):
+def handle_405_error(_err):
     return redirect(url_for('main.index'))
 
-
 @main.app_errorhandler(404)
-def handle_404_error(error):
+def handle_404_error(_err):
     return render_template('404.html')
 #   ----------------------
 #           Pages
@@ -56,34 +51,22 @@ def about():
 #          Posts
 #   ----------------------
 
-def get_posts():
-    posts = Post.query.all()
-    result = []
-    
-    for post in posts:
-        result.append({
-            "id": post.id,
-            "title": post.title,
-            "content": post.content,
-            "created_at": post.created_at,
-            "user": post.user,
-            "user_id": post.user_id,
-            "liked_by": post.liked_by,
-            "likes": len(post.liked_by)
-        })
-    
-    return result
-
-@posts.route('/add-post', methods=["POST"])
+@posts.route('/add-post', methods=["GET", "POST"])
 def add_post():
-    form = PostForm()
-    post_add(form, current_user)    
-    return redirect(url_for('posts.popular'))
+    if request.method == "GET":
+        if not current_user.is_authenticated:
+            return redirect(url_for('auth.register'))
+        return render_template('addpost.html', form=PostForm())
+    else:
+        form = PostForm()
+        return post_add(form, current_user)
 
 @posts.route('/delete-post', methods=["DELETE"])
 def delete_post():
-    id = request.json['id']
-    post = Post.query.get(id)
+    user_id = request.json['id']
+    if not user_id:
+        return {"message": "User not found."}, 404
+    post = Post.query.get(user_id)
     if post:
         db.session.delete(post)
         db.session.commit()
@@ -92,8 +75,10 @@ def delete_post():
 
 @posts.route('/edit-post', methods=["POST"])
 def edit_post():
-    content, id = request.json['content'], request.json['id']
-    post = Post.query.get(id)
+    content, user_id = request.json['content'], request.json['id']
+    if not content or not user_id:
+        return {"message": "Missing data."}
+    post = Post.query.get(user_id)
     if post:
         post.content = content
         db.session.commit()
@@ -141,8 +126,6 @@ def delete_like():
     return jsonify({"msg": "Like not found"}), 400
 
 
-    
-
 #   ----------------------
 #       Authentication
 #   ----------------------
@@ -152,11 +135,9 @@ def login():
     if current_user.is_authenticated:
         next_page = request.args.get('next')
         return redirect(next_page or url_for('profile.user'))
-
     form = LoginForm()
     if form.validate_on_submit():
         return validate_login(form)
-
     return render_template('login.html', form=form)
 
 
@@ -165,7 +146,6 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         return validate_registration(form)
-
     return render_template('registrate.html', form=form)
 
 #   ----------------------
@@ -178,8 +158,7 @@ def confirm_edit():
 
 @profile.route('/change-avatar', methods=["POST"])
 def change_av():
-    change_avatar(request)
-    return redirect(url_for('profile.user'))
+    return change_avatar(request)
 
 @profile.route('/logout', methods=["POST"])
 def logout():
@@ -192,6 +171,4 @@ def logout():
 @login_required
 @jwt_required()
 def user():
-    response = make_response(render_template('user-profile.html'))
-    response.headers['Content-Security-Policy'] = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'"
-    return response
+    return render_template('user-profile.html')

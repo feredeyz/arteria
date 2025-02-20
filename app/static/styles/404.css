@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url('/static/styles/images/main-background.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #630a0a;
+}
+
+#error {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: #7c1c1c;
+    padding: 50px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: xx-large;
+}

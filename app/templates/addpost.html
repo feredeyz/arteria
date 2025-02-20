@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arteria: Add Post</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/addpost.css')}}">
+    <meta name="author" content="feredeyz">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='styles/images/arteria-logo.png') }}">
+</head>
+<body>
+    {% include "header.html" %}
+    <div id="addpost">
+        <form action="/add-post" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.title.label }} {{ form.title() }} <br>
+            {{ form.content.label }} {{ form.content() }} <br>
+            {{ form.submit() }}
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/addPost.js') }}"></script>
+</body>
+</html>

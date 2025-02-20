@@ -9,16 +9,6 @@
 </head>
 <body>
     {% include "header.html" %}
-    {% if current_user.is_authenticated %}
-        <div id="add-post">
-            <form action="/add-post" method="post">
-                {{ form.hidden_tag() }}
-                {{ form.title.label }} {{ form.title() }} <br>
-                {{ form.content.label }} {{ form.content() }} <br>
-                {{ form.submit() }}
-            </form>
-        </div>
-    {% endif %}
 
     <div id="posts">
 
@@ -52,6 +42,8 @@
                         {% if current_user.id == post.user.id %}
                             <div id="post-buttons">
                                 <button id="edit-post-button" onclick="editPost(this)" name="{{ post.id }}"><img src="{{url_for('static', filename='styles/images/edit.png')}}" alt="Edit"></button>
+                                <button id="delete-post-button" onclick="deletePost(this)" name="{{ post.id }}"><img src="{{url_for('static', filename='styles/images/bin.png')}}" alt="Edit"></button>
+                                
                             </div>
                         {% endif %}
                     </div>

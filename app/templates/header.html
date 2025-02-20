@@ -31,6 +31,7 @@
         
         {% if current_user.is_authenticated %}
             <button name="{{ current_user.id }}" onclick="logout()">Logout</button>
+            <button onclick="window.location.href = '/add-post'">Create</button>
             <script>
                 async function logout() {
                     try {

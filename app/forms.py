@@ -15,6 +15,6 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign up')
     
 class PostForm(FlaskForm):
-    title = StringField(' ', id='form-title', name='title', validators=[DataRequired()], render_kw={"placeholder": "Title"})
+    title = TextAreaField(' ', id='form-title', name='title', validators=[DataRequired()], render_kw={"placeholder": "Title"})
     content = TextAreaField(' ', id='form-content', name='content', validators=[DataRequired(), Length(max=350)], render_kw={"placeholder": "Your thoughts"})
     submit = SubmitField('Post', id='form-submit')

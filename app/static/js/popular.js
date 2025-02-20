@@ -141,4 +141,4 @@ document.querySelectorAll('#posts textarea').forEach( element => {
     else {
         element.style.height = '500px';
     }
-  })
+})
